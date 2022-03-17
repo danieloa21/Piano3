@@ -41,6 +41,8 @@ let genres = [
     { id: '1', genreName: "Classic"}
 ];
 
+let genreid_gen = 2;
+
 //Your endpoints go here
 app.get('/', (req, res) => {
   res.set('Content-Type', 'text/html');
@@ -49,9 +51,17 @@ app.get('/', (req, res) => {
 
 
 app.get('/tunes', (req, res) => {
-   res.status(200).json(tunes.removeproperty(content))
-    }
-);
+  let noContents = tunes.map((tune) => {
+      let newObj = {
+          id: tune.id,
+          name: tune.name,
+          genre: tune.genreId
+      }
+      return newObj;
+  });
+
+  res.status(200).send(noContents); 
+});
 
 app.get('/tunes/:id', (req, res) => {
   for (let i = 0; i < tunes.length; i++) {
@@ -64,11 +74,25 @@ app.get('/tunes/:id', (req, res) => {
 
 });
 
+
+
 app.get('/genres', (req,res) => {
     res.status(200).json(genres)
   }
 );
 
+app.post('/genres', (req, res) => {
+ // if (req.body === undefined || req.body.genreName === undefined) {
+ //   res.status(400).json({"message": "GenreName is required to create a new genre"})
+ //   return
+  //}
+ // else{
+    let newGenre = { genreName: req.body.genreName, id: genreid_gen}
+    genres.push(newGenre)
+    genreid_gen++
+    res.status(201).json(newGenre)
+  //}
+});
 
 
 
