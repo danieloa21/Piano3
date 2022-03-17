@@ -89,22 +89,42 @@ app.get('/genres', (req,res) => {
 );
 
 app.post('/genres', (req, res) => {
+  for (let i = 0; i < genres.length; i++) {
+    if (genres[i].genreName === req.body.genreName){
+      res.status(303).json({"message": "genreName already exists"})
+      return;
+    }
+  }
   if (req.body === undefined || req.body.genreName === undefined) {
-    res.status(400).json({"message": "GenreName is required to create a new genre"})
-    return
+    res.status(400).json({"message": "genreName is required to create a new genre"})
+    return;
   }
   else{
     let newGenre = { genreName: req.body.genreName, id: genreid_gen}
     genres.push(newGenre)
     genreid_gen++
     res.status(201).json(newGenre)
-  //}
+  }
 });
 
 
-app.delete('/genre', (req, res) => {
-   var emptygenre = genre
-   res.status(200)
+app.delete('/genres/:id', (req, res) => {
+
+  for (let i = 0; i < tunes.length; i++) {
+      if (tunes[i].id == genres[i].id && tunes.content == []) {
+          res.status(200).json({"message": "Genre with id " + req.params.id + " has tunes in it. The genre must be empty to delete"});
+          return;
+      }
+  }
+
+  for (let i = 0; i < genres.length; i++) {
+      if (genres[i].id == req.params.id) {
+          res.status(200).json(genres.splice(i, 1));
+          return;
+      }
+  }
+
+  res.status(404).json({'message': "Genre with id " + req.params.id + " was not found"});
 });
 
 
@@ -113,5 +133,3 @@ app.delete('/genre', (req, res) => {
 app.listen(port, () => {
     console.log('Tune app listening on port + ' + port);
 });
-
-
