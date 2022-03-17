@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 //Use cors to avoid issues with testing on localhost
 const cors = require('cors');
 
+
 const app = express();
 
 //Port environment variable already set up to run on Heroku
@@ -41,6 +42,53 @@ let genres = [
 ];
 
 //Your endpoints go here
+app.get('/', (req, res) => {
+  res.set('Content-Type', 'text/html');
+  res.send('Backend for piano');
+});
+
+
+app.get('/tunes', (req, res) => {
+   res.status(200).json(tunes.removeproperty(content))
+    }
+);
+
+app.get('/tunes/:id', (req, res) => {
+  for (let i = 0; i < tunes.length; i++) {
+      if (tunes[i].id == req.params.id) {
+          res.status(200).json(tunes[i])
+          return
+      }
+  }
+  res.status(404).json({'message': "Tune with id " + req.params.id + "was no found"});
+
+});
+
+app.get('/genres', (req,res) => {
+    res.status(200).json(genres)
+  }
+);
+
+
+
+
+app.get('/tunes/:id', (req, res) => {
+    for (let i = 0; i < tunes.length; i++) {
+        if (tunes[i].id == req.params.id) {
+            res.status(200).json(tunes[i])
+            return
+        }
+    }
+    res.status(404).json({'message': "Tune with id " + req.params.id + "was no found"});
+
+});
+
+//app.delete('/genre', (req, res) => {
+ //   var emptygenre = genre
+//} 
+//)
+
+
 
 //Start the server
 app.listen(port, () => {
