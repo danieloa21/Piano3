@@ -74,6 +74,13 @@ app.get('/tunes/:id', (req, res) => {
 
 });
 
+app.post('/tunes', (req, res) => {
+  res.status(201)
+});
+
+app.patch('/tunes/:id', (req, res) => {
+  res.status(200)
+});
 
 
 app.get('/genres', (req,res) => {
@@ -95,22 +102,10 @@ app.post('/genres', (req, res) => {
 });
 
 
-
-app.get('/tunes/:id', (req, res) => {
-    for (let i = 0; i < tunes.length; i++) {
-        if (tunes[i].id == req.params.id) {
-            res.status(200).json(tunes[i])
-            return
-        }
-    }
-    res.status(404).json({'message': "Tune with id " + req.params.id + "was no found"});
-
+app.delete('/genre', (req, res) => {
+   var emptygenre = genre
+   res.status(200)
 });
-
-//app.delete('/genre', (req, res) => {
- //   var emptygenre = genre
-//} 
-//)
 
 
 
@@ -118,3 +113,5 @@ app.get('/tunes/:id', (req, res) => {
 app.listen(port, () => {
     console.log('Tune app listening on port + ' + port);
 });
+
+
