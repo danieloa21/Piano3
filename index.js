@@ -89,11 +89,11 @@ app.get('/genres', (req,res) => {
 );
 
 app.post('/genres', (req, res) => {
- // if (req.body === undefined || req.body.genreName === undefined) {
- //   res.status(400).json({"message": "GenreName is required to create a new genre"})
- //   return
-  //}
- // else{
+  if (req.body === undefined || req.body.genreName === undefined) {
+    res.status(400).json({"message": "GenreName is required to create a new genre"})
+    return
+  }
+  else{
     let newGenre = { genreName: req.body.genreName, id: genreid_gen}
     genres.push(newGenre)
     genreid_gen++
